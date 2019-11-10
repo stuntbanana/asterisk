@@ -112,6 +112,9 @@ case "$1" in
 	if test "x$COLOR" = "xno" ; then
 		ASTARGS="$ASTARGS -n"
 	fi
+	if [ $PJLIB_RESOLVER_PORT ] ; then
+		export PJLIB_RESOLVER_PORT=$PJLIB_RESOLVER_PORT
+	fi
 	# "start-stop-daemon --oknodo" returns 0 even if Asterisk was already running (as LSB expects):
 	start-stop-daemon --start --oknodo --exec $DAEMON -- $ASTARGS
 	log_end_msg $?

@@ -1,0 +1,33 @@
+diff -u -r a/pjlib-util/src/pjlib-util/resolver.c b/pjlib-util/src/pjlib-util/resolver.c
+--- a/pjlib-util/src/pjlib-util/resolver.c	2019-10-26 17:21:31.570707326 +0000
++++ b/pjlib-util/src/pjlib-util/resolver.c	2019-10-26 17:31:42.481152925 +0000
+@@ -272,6 +272,8 @@
+     pj_sockaddr bound_addr;
+     pj_ssize_t rx_pkt_size;
+     pj_status_t status;
++    const char *pjlib_resolver_port_str;
++    pj_uint16_t pjlib_resolver_port;
+ 
+     /* Create the UDP socket */
+     status = pj_sock_socket(pj_AF_INET(), pj_SOCK_DGRAM(), 0, &resv->udp_sock);
+@@ -279,7 +281,10 @@
+ 	return status;
+ 
+     /* Bind to any address/port */
+-    status = pj_sock_bind_in(resv->udp_sock, 0, 0);
++    pjlib_resolver_port_str = getenv("PJLIB_RESOLVER_PORT");
++    pjlib_resolver_port = pjlib_resolver_port_str ? strtoul(pjlib_resolver_port_str, NULL, 0) : 0;
++
++    status = pj_sock_bind_in(resv->udp_sock, 0, pjlib_resolver_port);
+     if (status != PJ_SUCCESS)
+ 	return status;
+ 
+@@ -324,7 +329,7 @@
+     }
+ 
+     /* Bind to any address/port */
+-    pj_sockaddr_init(pj_AF_INET6(), &bound_addr, NULL, 0);
++    pj_sockaddr_init(pj_AF_INET6(), &bound_addr, NULL, pjlib_resolver_port);
+     status = pj_sock_bind(resv->udp6_sock, &bound_addr,
+ 			  pj_sockaddr_get_len(&bound_addr));
+     if (status != PJ_SUCCESS)

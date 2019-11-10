@@ -43,3 +43,5 @@ COLOR=yes
 # their final location.
 #TEMPRECORDINGLOCATION=yes
 
+# Port to bind PJLIB resolver to
+PJLIB_RESOLVER_PORT=65500

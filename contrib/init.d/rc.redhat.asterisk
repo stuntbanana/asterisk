@@ -113,6 +113,9 @@ start() {
 	if [ "x$TEMPRECORDINGLOCATION" = "xyes" -o "x$TMPRECORDINGLOCATION" = "xyes" ]; then
 		ASTARGS="$ASTARGS -t"
 	fi
+  if [ $PJLIB_RESOLVER_PORT ] ; then
+		export PJLIB_RESOLVER_PORT=$PJLIB_RESOLVER_PORT
+	fi
 	if [ "x$COLOR" = "xyes" ]; then
 		export TERM=linux
 		daemon sh -c "$DAEMON $ASTARGS -c" >/dev/null </dev/null 2>&1 &
